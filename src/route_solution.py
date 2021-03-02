@@ -28,7 +28,7 @@ class Route(sol.Solution):
         obj_val = 0
         for i in range(0, self.problem.count_locations() - 1):
             curr_source = self.visit_sequence[i]
-            curr_destinations = self.visit_sequence[i + 1]
+            curr_destination = self.visit_sequence[i + 1]
             curr_distance = self.problem._dist_matrix[curr_source][curr_destination]
             obj_val = obj_val + curr_distance
 

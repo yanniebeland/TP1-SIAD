@@ -1,7 +1,10 @@
-import solver, route_solution as rsol
+import solver
+import route_solution as rsol
 
 import numpy as np
 import copy
+import time
+
 
 class FrpRandSolver(solver.Solver):
 
@@ -25,9 +28,9 @@ class FrpRandSolver(solver.Solver):
         # Boucle d'exécution:
         # Algorithme simple qui consiste à générer plusieurs solutions au hasard pour améliorer la solution courante
         iteration_no = 1
-        while(self.continue()):
+        while(self._continue()):
             if(self.verbose > 1):
-                print('Itération ' + str(iteration_no_))
+                print('Itération ' + str(iteration_no))
             new_rsol = rsol.Route(solvedProblem=prob)
             new_rsol.visit_sequence = np.random.permutation(all_locations)
             if(self.verbose > 1):

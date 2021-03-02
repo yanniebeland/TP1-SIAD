@@ -1,5 +1,5 @@
 import solution as solution
-
+import frpamplmipsolver as amplsolve
 import time
 
 class Solver:
@@ -12,6 +12,7 @@ class Solver:
         # Interprétation: 
         # 0: Aucune sortie, 1: Sortie minimale, 2: Sortie détaillée, >2: Niveau débogage
         self.verbose = 1
+        self.done = False
 
     def _prepare(self):
         # Initialiser tous les attributs pour l'exécution
@@ -35,8 +36,8 @@ class Solver:
         self._prepare()
         # Boucle d'exécution
         while(self._continue()):
+            amplsolve.FrpAmplMipSolver()
             # TODO (il faut coder la boucle d'exécution)
-            pass
 
         # Finaliser l'exécution
         self._terminate()
