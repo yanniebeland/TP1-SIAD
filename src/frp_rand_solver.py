@@ -1,9 +1,6 @@
-import solver
-import fastroute_problem as frp
-import route_solution as rsol
+import solver, route_solution as rsol
 
 import numpy as np
-import time
 import copy
 
 class FrpRandSolver(solver.Solver):

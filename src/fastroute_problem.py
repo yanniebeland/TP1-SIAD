@@ -1,4 +1,4 @@
-import problem as problem
+import problem as prob
 import copy
 
 class FastRouteProb(prob.Problem):

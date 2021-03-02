@@ -1,5 +1,4 @@
-import problem
-import solution
+import solution as solution
 
 import time
 

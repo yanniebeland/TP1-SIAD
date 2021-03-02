@@ -1,7 +1,6 @@
-import solution as solution
-import fastroute_problem as frp
-
 import sys
+import solution as sol
+import fastroute_problem as frp
 
 class Route(sol.Solution):
 
