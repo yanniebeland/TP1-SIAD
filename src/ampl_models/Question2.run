@@ -1,0 +1,10 @@
+reset;
+option solver gurobi;
+model Question2.mod;
+data Question2.dat;
+solve;
+display Z;
+display Y;
+
+
+
