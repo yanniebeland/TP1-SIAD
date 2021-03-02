@@ -1,11 +1,15 @@
+# Ensembles
 set D := 1 2 3 4;
 set A := 1 2 3 4;
 
+# Paramètres
+# (nombre d'endroits à visiter)
 param L:= 4;
+# (matrice des distances)
 param X:
       1  2  3  4 =
     1 0 20 30 40
     2 20 0 30  5
     3 30 30 0 10
-    4 40 5 10  0 ;
+    4 40 5 10  0 ; 
     
