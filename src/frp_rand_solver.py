@@ -1,6 +1,5 @@
 import solver
 import route_solution as rsol
-
 import numpy as np
 import copy
 import time

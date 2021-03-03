@@ -48,10 +48,34 @@ class FrpAmplMipSolver(solver.Solver):
 
             ampl.setData(df)
             ampl.solve()
-            results = ampl.getVariable('Y').getValues()
-            print(results)
 
-            return results
+            y = ampl.getVariable('Y')
+            dfy = y.getValues()
+
+            chosen = []
+            for row in dfy:
+                chemin = (row[0], row[1])
+                if row[2] == 1:
+                    chosen.append(chemin)
+                else:
+                    pass
+
+            x = ampl.getParameter('X')
+            dfx = x.getValues()
+            dist_list = []
+            for row in dfx:
+                for i in chosen:
+                    if i == (row[0], row[1]):
+                        dist_list.append(row[2])
+                        pass
+                    else:
+                        pass
+                else:
+                    pass
+
+            return dist_list
+
+
 
         except Exception as e:
             print(e)

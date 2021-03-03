@@ -49,10 +49,29 @@ try:
     ampl.solve()
 
     y = ampl.getVariable('Y')
-    df = y.getValues()
-    for row in df:
-        print(row)
+    dfy = y.getValues()
+    chosen = []
+    for row in dfy:
+        chemin = (row[0], row[1])
+        if row[2] == 1:
+            chosen.append(chemin)
+        else:
+            pass
 
+    x = ampl.getParameter('X')
+    dfx = x.getValues()
+    dist_list = []
+    for row in dfx:
+        for i in chosen:
+            if i == (row[0], row[1]):
+                dist_list.append(row[2])
+                pass
+            else:
+                pass
+        else:
+            pass
+    print(dist_list)
+    print(chosen)
 
 
 except Exception as e:

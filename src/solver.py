@@ -1,6 +1,9 @@
 import solution as solution
 import frpamplmipsolver as amplsolve
 import time
+import fastroute_problem as frp
+import route_solution as rsol
+
 
 class Solver:
 
@@ -12,8 +15,6 @@ class Solver:
         # Interprétation: 
         # 0: Aucune sortie, 1: Sortie minimale, 2: Sortie détaillée, >2: Niveau débogage
         self.verbose = 1
-        self.done = False
-        self.solver = amplsolve.FrpAmplMipSolver()
 
     def _prepare(self):
         # Initialiser tous les attributs pour l'exécution
@@ -37,7 +38,8 @@ class Solver:
         self._prepare()
         # Boucle d'exécution
         while(self._continue()):
-            amplsolve.FrpAmplMipSolver()
+            solvedProblem = amplsolve.FrpAmplMipSolver()
+
             # TODO (il faut coder la boucle d'exécution)
 
         # Finaliser l'exécution
@@ -45,5 +47,5 @@ class Solver:
 
         # Retourner une solution
         # TODO (le code ci-dessous est un code temporaire)
-        return solution.Solution()
+        return rsol.Route.evaluate()
 
