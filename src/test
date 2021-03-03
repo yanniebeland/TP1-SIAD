@@ -1,0 +1,60 @@
+import solver
+import fastroute_problem as frp
+import amplpy
+import os
+from importlib import reload
+reload(solver)
+
+try:
+    ampl_env = amplpy.Environment()
+    ampl = amplpy.AMPL(ampl_env)
+
+    ampl.setOption('solver', 'gurobi')
+
+    model_dir = os.path.normpath('./ampl_models')
+    ampl.read(os.path.join(model_dir, 'Question2.mod'))
+
+    # starts=['1','2','3','4']
+    # ends=['1','2','3','4']
+
+    dist_matrix = [[0, 20, 30, 40],
+                   [20, 0, 30, 5],
+                   [30, 30, 0, 10],
+                   [40, 5, 10, 0]]
+    prob = frp.FastRouteProb(dist_matrix=dist_matrix)
+
+    nb_locations = frp.FastRouteProb.count_locations(prob)
+    location_list = list(range(nb_locations))
+
+    L = ampl.getParameter('L')
+    L.set(nb_locations)
+
+    D = amplpy.DataFrame('D')
+    D.setColumn('D', location_list)
+    ampl.setData(D, 'D')
+
+    A = amplpy.DataFrame('A')
+    A.setColumn('A', location_list)
+    ampl.setData(A, 'A')
+
+    df = amplpy.DataFrame(('D', 'A'), 'X')
+
+    df.setValues({
+        (start, end): dist_matrix[i][j]
+        for i, start in enumerate(location_list)
+        for j, end in enumerate(location_list)})
+    print(df)
+
+    ampl.setData(df)
+    ampl.solve()
+
+    y = ampl.getVariable('Y')
+    df = y.getValues()
+    for row in df:
+        print(row)
+
+
+
+except Exception as e:
+    print(e)
+    raise

@@ -11,9 +11,8 @@ class FrpAmplMipSolver(solver.Solver):
 
     def __init__(self):
         super(FrpAmplMipSolver, self).__init__()
-        self.prob = frp.FastRouteProb
-        self.matrix = frp.FastRouteProb.__str__(self.prob())
-        pass
+        self.prob = frp.FastRouteProb(dist_matrix=None)
+        self.dist_matrix = frp.FastRouteProb.give_dist_matrix(self.prob)
 
     def solve(self, prob=None):
         try:
@@ -25,40 +24,38 @@ class FrpAmplMipSolver(solver.Solver):
             model_dir = os.path.normpath('./ampl_models')
             ampl.read(os.path.join(model_dir, 'Question2.mod'))
 
-            starts=['1','2','3','4']
-            ends=['1','2','3','4']
+            nb_locations = frp.FastRouteProb.count_locations(self.prob)
+            location_list = list(range(nb_locations))
 
-            df = amplpy.DataFrame('start')
-            df.setColumn(self,'start')
-            ampl.setData(df, starts)
+            L = ampl.getParameter('L')
+            L.set(nb_locations)
 
-            df = amplpy.DataFrame('end')
-            df.setColumn(self,'end')
-            ampl.setData(df, ends)
+            D = amplpy.DataFrame('D')
+            D.setColumn('D', location_list)
+            ampl.setData(D, 'D')
 
-            df = amplpy.DataFrame(('start','end'),'dst')
+            A = amplpy.DataFrame('A')
+            A.setColumn('A', location_list)
+            ampl.setData(A, 'A')
+
+            df = amplpy.DataFrame(('D', 'A'), 'X')
 
             df.setValues({
-                (start, end): self.matrix[i][j]
-                for i, start in enumerate(starts)
-                for j, end in enumerate(ends)})
+                (start, end): self.dist_matrix[i][j]
+                for i, start in enumerate(location_list)
+                for j, end in enumerate(location_list)})
+            print(df)
 
-
-            ampl.setData(self, df)
+            ampl.setData(df)
             ampl.solve()
-            self.done = True
+            results = ampl.getVariable('Y').getValues()
+            print(results)
 
-            print('Objective: {}'.format(ampl.getObjective('Total_Cost').value()))
-            solution = ampl.getVariable('Buy').getValues()
-            print('Solution: \n' + str(solution))
+            return results
 
         except Exception as e:
             print(e)
             raise
-
-
-
-
 
 
 

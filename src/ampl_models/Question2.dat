@@ -2,8 +2,8 @@
 set D := 1 2 3 4;
 set A := 1 2 3 4;
 
-# Paramètres
-# (nombre d'endroits à visiter)
+# Paramï¿½tres
+# (nombre d'endroits ï¿½ visiter)
 param L:= 4;
 # (matrice des distances)
 param X:

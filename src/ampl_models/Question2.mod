@@ -2,11 +2,11 @@
 set D;
 set A;
 set O;
-# Paramètres
+# Paramï¿½tres
 param L;
 param X {d in D, a in A};
 
-# Variables de décision
+# Variables de dï¿½cision
 var Y {d in D, a in A} binary;
 
 # Fonction objectif
