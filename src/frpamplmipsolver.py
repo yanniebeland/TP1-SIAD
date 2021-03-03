@@ -65,15 +65,17 @@ class FrpAmplMipSolver(solver.Solver):
             dist_list = []
             for row in dfx:
                 for i in chosen:
+                    to_append = [row[2]]
                     if i == (row[0], row[1]):
-                        dist_list.append(row[2])
+                        dist_list.append(to_append)
                         pass
                     else:
                         pass
                 else:
                     pass
+            frp_solved = frp.FastRouteProb(dist_matrix=dist_list)
 
-            return dist_list
+            return frp_solved
 
 
 
