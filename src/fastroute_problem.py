@@ -17,6 +17,6 @@ class FastRouteProb(prob.Problem):
     def count_locations(self):
         return len(self._dist_matrix)
 
-    def give_dist_matrix(self):
-        return self._dist_matrix
-        
+    # def give_dist_matrix(self):
+    #     return self._dist_matrix
+    #

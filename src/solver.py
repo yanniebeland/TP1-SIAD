@@ -1,9 +1,6 @@
 import solution as solution
-import frpamplmipsolver as amplsolve
 import time
-import fastroute_problem as frp
 import route_solution as rsol
-import test
 
 
 class Solver:
@@ -34,13 +31,14 @@ class Solver:
         self._last_run_end = time.time()
         self._last_run_sec = self._last_run_end - self._last_run_start
 
-    def solve(self, prob=None):
+    def solve(self, prob):
         # Préparer l'exécution
         self._prepare()
         # Boucle d'exécution
         route = rsol.Route(solvedProblem=None)
         while(self._continue()):
-            amplsolve.FrpAmplMipSolver()
+            #amplsolve.FrpAmplMipSolver()
+            pass
             # TODO (il faut coder la boucle d'exécution)
 
         # Finaliser l'exécution
@@ -48,5 +46,4 @@ class Solver:
 
         # Retourner une solution
         # TODO (le code ci-dessous est un code temporaire)
-        return rsol.Route()
-
+        return solution.Solution()

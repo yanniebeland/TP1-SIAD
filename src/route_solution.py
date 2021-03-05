@@ -22,7 +22,7 @@ class Route(sol.Solution):
         return False
 
     def evaluate(self):
-        if self.validate() == False:
+        if not self.validate():
             return sys.float_info.max
 
         obj_val = 0
