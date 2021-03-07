@@ -14,12 +14,21 @@ class FrpAmplMipSolver(solver.Solver):
         ampl = amplpy.AMPL(ampl_env)
 
         ampl.setOption('solver', 'gurobi')
+        ampl.setOption('gurobi_options',
+                       "improvetime 3600 "
+                       #"impstartnodes 100 "
+                       #"iterlim 1000000 "
+                       "mipfocus 1 "
+                       #"nodelim 1000 "
+                       "timelim 7200 "
+                       "tunetimelimit 60 "
+                       "relax 0")
 
         model_dir = os.path.normpath('./ampl_models')
         ampl.read(os.path.join(model_dir, 'Question2.mod'))
 
         nb_locations = prob.count_locations()
-        location_list = list(range(nb_locations))
+        location_list = list(range(1, nb_locations+1))
 
         L = ampl.getParameter('L')
         L.set(nb_locations)
@@ -31,6 +40,12 @@ class FrpAmplMipSolver(solver.Solver):
         A = amplpy.DataFrame('A')
         A.setColumn('A', location_list)
         ampl.setData(A, 'A')
+
+        nodes = nb_locations-1
+        nodes_list = list(range(1, nodes+1))
+        Z = amplpy.DataFrame('Z')
+        Z.setColumn('Z', nodes_list)
+        ampl.setData(Z, 'Z')
 
         df = amplpy.DataFrame(('D', 'A'), 'X')
 
@@ -46,7 +61,7 @@ class FrpAmplMipSolver(solver.Solver):
         y = ampl.getVariable('Y')
         dfy = y.getValues()
 
-        chosen = {int(row[0]): int(row[1]) for row in dfy if row[2] == 1}
+        chosen = {int(row[0]): int(row[1]) for row in dfy if row[3] == 1}
 
         x = ampl.getParameter('X')
         dfx = x.getValues()
@@ -79,6 +94,14 @@ def generate_order(location_list, chosen):
     while next is not None:
         order.append(next)
         next = chosen.get(next)
+
+    start_points = set(chosen.keys())
+    arrival_points = set(chosen.values())
+    all_points = set(location_list)
+
+    #print(location_list)
+    print(f"No start from: {all_points-start_points}")
+    print(f"No arrival from: {all_points - arrival_points}")
 
     return order
 

@@ -15,7 +15,7 @@ class Route(sol.Solution):
         return str(tmp_str)
     
     def validate(self):
-        locations_list = list(range(0, self.problem.count_locations()))
+        locations_list = list(range(1, self.problem.count_locations()+1))
         if sorted(self.visit_sequence) == locations_list:
             return True
         
@@ -27,8 +27,8 @@ class Route(sol.Solution):
 
         obj_val = 0
         for i in range(0, self.problem.count_locations() - 1):
-            curr_source = self.visit_sequence[i]
-            curr_destination = self.visit_sequence[i + 1]
+            curr_source = self.visit_sequence[i] - 1
+            curr_destination = self.visit_sequence[i + 1] - 1
             curr_distance = self.problem._dist_matrix[curr_source][curr_destination]
             obj_val = obj_val + curr_distance
 
